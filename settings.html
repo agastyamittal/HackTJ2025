@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            background: linear-gradient(180deg, #ffffff 0%, #e6f0ff 35%, #cce0ff 70%, #b3d1ff 100%);
+            min-height: 100vh;
+        }
+    </style>
+    <script src="main.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - SkillSwap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/4ZDrJqt.png">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
+        .select2-container--default .select2-selection--multiple {
+            border-radius: 0.375rem;
+            border-color: #D1D5DB;
+            padding: 0.25rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-800">
+        <div class="w-full px-2">
+            <div class="relative flex h-16 items-center justify-between">
+                <!-- Left side: Logo and Brand -->
+                <div class="flex items-center">
+                    <img class="h-8 w-auto" src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                    <h1 class="text-2xl font-bold text-white ml-3">SkillSwap</h1>
+                </div>
+                
+                <!-- Back to Dashboard wsith added margin -->
+                <div class="flex items-center mr-4">
+                    <a href="homepage_afs.html" class="text-white hover:text-gray-300">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-6">Settings</h2>
+                <nav>
+                    <button id="profile-settings" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md mb-2 focus:outline-none focus:bg-gray-100">
+                        My Profile
+                    </button>
+                    <button id="privacy-settings" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md mb-2 focus:outline-none focus:bg-gray-100">
+                        Privacy Settings
+                    </button>
+                    <button id="preferences-settings" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md mb-2 focus:outline-none focus:bg-gray-100">
+                        Preferences
+                    </button>
+                    <div class="border-t border-gray-200 my-4"></div>
+                    <button onclick = "deleteAccountFunction()" id="delete-account" class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                        Delete my Account
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 p-8">
+            <div class="bg-white rounded-lg shadow-md p-6" id="main-content">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Select a setting to configure</h2>
+                <p class="text-gray-600">Choose an option from the sidebar to manage your account settings.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileButton = document.getElementById('profile-settings');
+            const privacyButton = document.getElementById('privacy-settings');
+            const preferencesButton = document.getElementById('preferences-settings');
+            const mainContent = document.getElementById('main-content');
+            const profilePictures = document.querySelectorAll('img[src*="V4RclNb.jpeg"]');
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const users = JSON.parse(localStorage.getItem('users'));
+    
+            function createEditableField(label, value, buttonText, isSkillField = false, idPrefix = '') {
+                if (currentUser && users && users[currentUser.username]) {
+        const userData = users[currentUser.username];
+        if (currentUser && users && users[currentUser.username] && users[currentUser.username].profilePicture) {
+        const profilePic = document.getElementById('profile-pic');
+        if (profilePic) {
+            profilePic.src = users[currentUser.username].profilePicture;
+        }
+    }
+    }
+                if (isSkillField) {
+                    return `
+                        <div class="flex items-center justify-between">
+                            <div class="flex-grow mr-4">
+                                <p class="text-lg text-gray-700" id="${label === 'Your Skills' ? 'skills-display' : 'interests-display'}">${label}: ${value}</p>
+                                <div class="hidden skill-edit-container">
+                                    <select class="skill-select w-full" multiple="multiple">
+                                        <!-- Programming -->
+                                        <option value="JavaScript">JavaScript</option>
+                                        <option value="Python">Python</option>
+                                        <option value="Java">Java</option>
+                                        <option value="HTML/CSS">HTML/CSS</option>
+                                        <option value="React">React</option>
+                                        <option value="C++">C++</option>
+                                        <option value="SQL">SQL</option>
+                                        
+                                        <!-- Languages -->
+                                        <option value="Spanish">Spanish</option>
+                                        <option value="French">French</option>
+                                        <option value="Mandarin">Mandarin</option>
+                                        <option value="Japanese">Japanese</option>
+                                        <option value="German">German</option>
+                                        <option value="Italian">Italian</option>
+                                        
+                                        <!-- Music -->
+                                        <option value="Piano">Piano</option>
+                                        <option value="Guitar">Guitar</option>
+                                        <option value="Violin">Violin</option>
+                                        <option value="Singing">Singing</option>
+                                        <option value="Drums">Drums</option>
+                                        <option value="Music Production">Music Production</option>
+                                        
+                                        <!-- Arts -->
+                                        <option value="Drawing">Drawing</option>
+                                        <option value="Painting">Painting</option>
+                                        <option value="Photography">Photography</option>
+                                        <option value="Digital Art">Digital Art</option>
+                                        <option value="Graphic Design">Graphic Design</option>
+                                        <option value="3D Modeling">3D Modeling</option>
+                                        
+                                        <!-- Sports/Fitness -->
+                                        <option value="Yoga">Yoga</option>
+                                        <option value="Dance">Dance</option>
+                                        <option value="Martial Arts">Martial Arts</option>
+                                        <option value="Swimming">Swimming</option>
+                                        <option value="Basketball">Basketball</option>
+                                        <option value="Tennis">Tennis</option>
+                                        
+                                        <!-- Business/Professional -->
+                                        <option value="Public Speaking">Public Speaking</option>
+                                        <option value="Leadership">Leadership</option>
+                                        <option value="Marketing">Marketing</option>
+                                        <option value="Project Management">Project Management</option>
+                                        
+                                        <!-- Creative -->
+                                        <option value="Writing">Writing</option>
+                                        <option value="Video Editing">Video Editing</option>
+                                        <option value="Animation">Animation</option>
+                                        <option value="Creative Writing">Creative Writing</option>
+                                        
+                                        <!-- Lifestyle -->
+                                        <option value="Cooking">Cooking</option>
+                                        <option value="Baking">Baking</option>
+                                        <option value="Gardening">Gardening</option>
+                                        <option value="Interior Design">Interior Design</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" 
+                                    id="${label === 'Your Skills' ? 'skills-edit-btn' : 'interests-edit-btn'}">
+                                ${buttonText}
+                            </button>
+                        </div>
+                    `;
+                }
+                return `
+                    <div class="flex items-center justify-between">
+                        <div class="flex-grow mr-4">
+                            <p class="text-lg text-gray-700" id="${idPrefix}-display" style="display: block;">${label}: ${value}</p>
+                            <input type="text" class="w-full px-3 py-2 text-lg text-gray-700 border rounded-md hidden" 
+                                   id="${idPrefix}-input" value="${value}" placeholder="${value}">
+                        </div>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 edit-button" id="${idPrefix}-edit-btn">
+                            ${buttonText}
+                        </button>
+                    </div>
+                `;
+            }
+
+            profileButton.addEventListener('click', function() {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                const username = currentUser ? currentUser.username : 'placeholder';
+                
+                mainContent.innerHTML = `
+                    <div class="space-y-6">
+                        <!-- Keep the profile picture section -->
+                        <div class="relative w-32 h-32 group mb-6">
+                            <img id="profile-pic" src="https://i.imgur.com/V4RclNb.jpeg" alt="Profile Picture" 
+                                class="w-full h-full rounded-full object-cover">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 rounded-full 
+                                      flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer"
+                                 onclick="document.getElementById('profile-pic-input').click()">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            </div>
+                            <input type="file" id="profile-pic-input" class="hidden" accept="image/*">
+                        </div>
+
+                        <!-- Username section -->
+                        ${createEditableField('Username', username, 'Change Username', false, 'username')}
+
+                        <!-- Other fields -->
+                        ${createEditableField('Your bio', 'Hello!', 'Change Bio', false, 'bio')}
+                        ${createEditableField('Your Profession', 'Unemployed', 'Change Profession', false, 'profession')}
+                        ${createEditableField('Your Skills', 'Select your skills', 'Change Skills', true)}
+                        ${createEditableField('Your Interests', 'Select your interests', 'Change Interests', true)}
+                    </div>
+                `;
+
+                // Add click handler for username edit button
+                const editUsernameBtn = document.getElementById('username-edit-btn');
+                const usernameDisplay = document.getElementById('username-display');
+                const usernameInput = document.getElementById('username-input');
+
+                editUsernameBtn.addEventListener('click', function() {
+                    if (usernameInput.classList.contains('hidden')) {
+                        // Switch to edit mode
+                        usernameDisplay.classList.add('hidden');
+                        usernameInput.classList.remove('hidden');
+                        editUsernameBtn.textContent = 'Save';
+                        editUsernameBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                        editUsernameBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                        usernameInput.focus();
+                    } else {
+                        // Save changes
+                        const newUsername = usernameInput.value;
+                        try {
+                            const users = JSON.parse(localStorage.getItem('users') || '{}');
+                            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+                            // Check if new username already exists and is not the current user
+                            if (users[newUsername] && newUsername !== currentUser.username) {
+                                alert('Username already exists!');
+                                // Revert the input value to current username
+                                usernameInput.value = currentUser.username;
+                                // Update display back to original
+                                usernameDisplay.textContent = `Username: ${currentUser.username}`;
+                                usernameDisplay.classList.remove('hidden');
+                                usernameInput.classList.add('hidden');
+                                editUsernameBtn.textContent = 'Change Username';
+                                editUsernameBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                                editUsernameBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                                return;
+                            }
+
+                            if (currentUser.username && users[currentUser.username]) {
+                                // Store user data
+                                const userData = users[currentUser.username];
+                                // Remove old username entry
+                                delete users[currentUser.username];
+                                // Add new username entry
+                                users[newUsername] = userData;
+                                // Update localStorage
+                                localStorage.setItem('users', JSON.stringify(users));
+                                
+                                // Update current user
+                                currentUser.username = newUsername;
+                                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                                // Update display
+                                usernameDisplay.textContent = `Username: ${newUsername}`;
+                                usernameDisplay.classList.remove('hidden');
+                                usernameInput.classList.add('hidden');
+                                editUsernameBtn.textContent = 'Change Username';
+                                editUsernameBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                                editUsernameBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                                
+                                alert('Username updated successfully!');
+                            }
+                        } catch (error) {
+                            console.error('Error updating username:', error);
+                            alert('Error updating username');
+                            // Revert on error
+                            usernameInput.value = currentUser.username;
+                            usernameDisplay.textContent = `Username: ${currentUser.username}`;
+                        }
+                    }
+                });
+
+                // Add click handler for bio edit button
+                const editBioBtn = document.getElementById('bio-edit-btn');
+                const bioDisplay = document.getElementById('bio-display');
+                const bioInput = document.getElementById('bio-input');
+
+                if (editBioBtn && bioDisplay && bioInput) {
+                    // Set initial bio from localStorage
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                    const users = JSON.parse(localStorage.getItem('users') || '{}');
+                    const currentBio = users[currentUser.username]?.bio || 'Hello!';
+                    bioDisplay.textContent = `Your bio: ${currentBio}`;
+                    bioInput.value = currentBio;
+
+                    editBioBtn.addEventListener('click', function() {
+                        if (bioInput.classList.contains('hidden')) {
+                            // Switch to edit mode
+                            bioDisplay.classList.add('hidden');
+                            bioInput.classList.remove('hidden');
+                            editBioBtn.textContent = 'Save';
+                            editBioBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                            editBioBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                            bioInput.focus();
+                        } else {
+                            try {
+                                // Save changes
+                                const newBio = bioInput.value;
+                                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+                                console.log('Current user:', currentUser); // Debug log
+                                console.log('Users before update:', users); // Debug log
+
+                                if (currentUser.username && users[currentUser.username]) {
+                                    // Update bio in users object
+                                    users[currentUser.username].bio = newBio;
+                                    localStorage.setItem('users', JSON.stringify(users));
+
+                                    console.log('Updated users object:', users); // Debug log
+                                    console.log('New bio saved:', users[currentUser.username].bio); // Debug log
+
+                                    // Update display
+                                    bioDisplay.textContent = `Your bio: ${newBio}`;
+                                    bioDisplay.classList.remove('hidden');
+                                    bioInput.classList.add('hidden');
+                                    editBioBtn.textContent = 'Change Bio';
+                                    editBioBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                                    editBioBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+
+                                    // Verify storage update
+                                    const verifyUsers = JSON.parse(localStorage.getItem('users'));
+                                    console.log('Verification - Bio in storage:', verifyUsers[currentUser.username].bio); // Debug log
+
+                                    alert('Bio updated successfully');
+                                } else {32
+                                    console.error('User not found in storage:', currentUser.username);
+                                    alert('Error: User not found');
+                                }
+                            } catch (error) {
+                                console.error('Error updating bio:', error);
+                                alert('Error updating bio');
+                                // Revert on error
+                                bioInput.value = currentBio;
+                                bioDisplay.textContent = `Your bio: ${currentBio}`;
+                            }
+                        }
+                    });
+                }
+
+                // Add click handler for profession edit button
+                const editProfessionBtn = document.getElementById('profession-edit-btn');
+                const professionDisplay = document.getElementById('profession-display');
+                const professionInput = document.getElementById('profession-input');
+
+                if (editProfessionBtn && professionDisplay && professionInput) {
+                    // Set initial profession from localStorage
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                    const users = JSON.parse(localStorage.getItem('users') || '{}');
+                    const currentProfession = users[currentUser.username]?.profession || 'Unemployed';
+                    professionDisplay.textContent = `Your Profession: ${currentProfession}`;
+                    professionInput.value = currentProfession;
+
+                    editProfessionBtn.addEventListener('click', function() {
+                        if (professionInput.classList.contains('hidden')) {
+                            // Switch to edit mode
+                            professionDisplay.classList.add('hidden');
+                            professionInput.classList.remove('hidden');
+                            editProfessionBtn.textContent = 'Save';
+                            editProfessionBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                            editProfessionBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                            professionInput.focus();
+                        } else {
+                            try {
+                                // Save changes
+                                const newProfession = professionInput.value;
+                                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+                                console.log('Current user:', currentUser); // Debug log
+                                console.log('Users before update:', users); // Debug log
+
+                                if (currentUser.username && users[currentUser.username]) {
+                                    // Update profession in users object
+                                    users[currentUser.username].profession = newProfession;
+                                    localStorage.setItem('users', JSON.stringify(users));
+
+                                    console.log('Updated users object:', users); // Debug log
+                                    console.log('New profession saved:', users[currentUser.username].profession); // Debug log
+
+                                    // Update display
+                                    professionDisplay.textContent = `Your Profession: ${newProfession}`;
+                                    professionDisplay.classList.remove('hidden');
+                                    professionInput.classList.add('hidden');
+                                    editProfessionBtn.textContent = 'Change Profession';
+                                    editProfessionBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                                    editProfessionBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+
+                                    // Verify storage update
+                                    const verifyUsers = JSON.parse(localStorage.getItem('users'));
+                                    console.log('Verification - Profession in storage:', verifyUsers[currentUser.username].profession);
+
+                                    alert('Profession updated successfully');
+                                } else {
+                                    console.error('User not found in storage:', currentUser.username);
+                                    alert('Error: User not found');
+                                }
+                            } catch (error) {
+                                console.error('Error updating profession:', error);
+                                alert('Error updating profession');
+                                // Revert on error
+                                professionInput.value = currentProfession;
+                                professionDisplay.textContent = `Your Profession: ${currentProfession}`;
+                            }
+                        }
+                    });
+                }
+
+                // Add click handler for skills edit button
+                const editSkillsBtn = document.getElementById('skills-edit-btn');
+                const skillsDisplay = document.getElementById('skills-display');
+                const skillsContainer = document.querySelector('.skill-edit-container');
+
+                if (editSkillsBtn && skillsDisplay && skillsContainer) {
+                    // Set initial skills from localStorage
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                    const users = JSON.parse(localStorage.getItem('users') || '{}');
+                    const currentSkills = users[currentUser.username]?.skills || [];
+                    
+                    // Initialize select2 for skills
+                    $('.skill-select').select2({
+                        placeholder: 'Select your skills',
+                        tags: true
+                    });
+
+                    // Set initial values if they exist
+                    if (currentSkills.length > 0) {
+                        $('.skill-select').val(currentSkills).trigger('change');
+                        skillsDisplay.textContent = `Your Skills: ${currentSkills.join(', ')}`;
+                    }
+
+                    editSkillsBtn.addEventListener('click', function() {
+                        console.log('Skills button clicked'); // Debug log
+                        if (skillsContainer.classList.contains('hidden')) {
+                            // Switch to edit mode
+                            skillsDisplay.style.display = 'none';
+                            skillsContainer.classList.remove('hidden');
+                            editSkillsBtn.textContent = 'Save';
+                            editSkillsBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                            editSkillsBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                        } else {
+                            // Save changes
+                            try {
+                                const newSkills = $('.skill-select').val() || [];
+                                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+                                if (currentUser.username && users[currentUser.username]) {
+                                    // Update skills
+                                    users[currentUser.username].skills = newSkills;
+                                    localStorage.setItem('users', JSON.stringify(users));
+
+                                    // Update display
+                                    skillsDisplay.textContent = `Your Skills: ${newSkills.join(', ')}`;
+                                    skillsDisplay.style.display = 'block';
+                                    skillsContainer.classList.add('hidden');
+                                    editSkillsBtn.textContent = 'Change Skills';
+                                    editSkillsBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                                    editSkillsBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+
+                                    alert('Skills updated successfully');
+                                }
+                            } catch (error) {
+                                console.error('Error updating skills:', error);
+                                alert('Error updating skills');
+                            }
+                        }
+                    });
+                }
+
+                // Add click handler for interests edit button
+                const editInterestsBtn = document.getElementById('interests-edit-btn');
+                const interestsDisplay = document.getElementById('interests-display');
+                const interestsContainer = document.querySelectorAll('.skill-edit-container')[1]; // Get second container for interests
+
+                if (editInterestsBtn && interestsDisplay && interestsContainer) {
+                    // Set initial interests from localStorage
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                    const users = JSON.parse(localStorage.getItem('users') || '{}');
+                    const currentInterests = users[currentUser.username]?.interests || [];
+                    
+                    // Initialize select2 for interests
+                    $('.skill-select').eq(1).select2({
+                        placeholder: 'Select your interests',
+                        tags: true
+                    });
+
+                    // Set initial values if they exist
+                    if (currentInterests.length > 0) {
+                        $('.skill-select').eq(1).val(currentInterests).trigger('change');
+                        interestsDisplay.textContent = `Your Interests: ${currentInterests.join(', ')}`;
+                    }
+
+                    editInterestsBtn.addEventListener('click', function() {
+                        console.log('Interests button clicked'); // Debug log
+                        if (interestsContainer.classList.contains('hidden')) {
+                            // Switch to edit mode
+                            interestsDisplay.style.display = 'none';
+                            interestsContainer.classList.remove('hidden');
+                            editInterestsBtn.textContent = 'Save';
+                            editInterestsBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                            editInterestsBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                        } else {
+                            // Save changes
+                            try {
+                                const newInterests = $('.skill-select').eq(1).val() || [];
+                                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+                                console.log('Saving interests:', newInterests); // Debug log
+
+                                if (currentUser.username && users[currentUser.username]) {
+                                    // Update interests
+                                    users[currentUser.username].interests = newInterests;
+                                    localStorage.setItem('users', JSON.stringify(users));
+
+                                    // Update display
+                                    interestsDisplay.textContent = `Your Interests: ${newInterests.join(', ')}`;
+                                    interestsDisplay.style.display = 'block';
+                                    interestsContainer.classList.add('hidden');
+                                    editInterestsBtn.textContent = 'Change Interests';
+                                    editInterestsBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                                    editInterestsBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+
+                                    // Verify storage update
+                                    const verifyUsers = JSON.parse(localStorage.getItem('users'));
+                                    console.log('Verification - Interests in storage:', verifyUsers[currentUser.username].interests);
+
+                                    alert('Interests updated successfully');
+                                }
+                            } catch (error) {
+                                console.error('Error updating interests:', error);
+                                alert('Error updating interests');
+                                // Revert on error
+                                $('.skill-select').eq(1).val(currentInterests).trigger('change');
+                                interestsDisplay.textContent = `Your Interests: ${currentInterests.join(', ')}`;
+                            }
+                        }
+                    });
+                }
+            });
+
+            privacyButton.addEventListener('click', function() {
+                mainContent.innerHTML = `
+                    <div class="space-y-6">
+                        ${createEditableField('Phone Number', '+1 (555) 123-4567', 'Change Phone Number', false, 'phone')}
+                        ${createEditableField('Email', 'example@email.com', 'Change Email', false, 'email')}
+                        ${createEditableField('Your Password', '*******', 'Change Password', false, 'password')}
+                    </div>
+                `;
+
+                // Add this inside the privacyButton click handler
+                const editPhoneBtn = document.getElementById('phone-edit-btn');
+                const phoneDisplay = document.getElementById('phone-display');
+                const phoneInput = document.getElementById('phone-input');
+
+                if (editPhoneBtn && phoneDisplay && phoneInput) {
+                    // Set initial phone from localStorage
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                    const users = JSON.parse(localStorage.getItem('users') || '{}');
+                    const currentPhone = users[currentUser.username]?.phone || '+1 (555) 123-4567';
+                    phoneDisplay.textContent = `Phone Number: ${currentPhone}`;
+                    phoneInput.value = currentPhone;
+
+                    editPhoneBtn.addEventListener('click', function() {
+                        if (phoneInput.classList.contains('hidden')) {
+                            // Switch to edit mode
+                            phoneDisplay.classList.add('hidden');
+                            phoneInput.classList.remove('hidden');
+                            editPhoneBtn.textContent = 'Save';
+                            editPhoneBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                            editPhoneBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                            phoneInput.focus();
+                        } else {
+                            try {
+                                // Save changes
+                                const newPhone = phoneInput.value;
+                                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+                                if (currentUser.username && users[currentUser.username]) {
+                                    // Update phone in users object
+                                    users[currentUser.username].phone = newPhone;
+                                    localStorage.setItem('users', JSON.stringify(users));
+
+                                    // Update display
+                                    phoneDisplay.textContent = `Phone Number: ${newPhone}`;
+                                    phoneDisplay.classList.remove('hidden');
+                                    phoneInput.classList.add('hidden');
+                                    editPhoneBtn.textContent = 'Change Phone Number';
+                                    editPhoneBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                                    editPhoneBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+
+                                    alert('Phone number updated successfully');
+                                }
+                            } catch (error) {
+                                console.error('Error updating phone:', error);
+                                alert('Error updating phone number');
+                                // Revert on error
+                                phoneInput.value = currentPhone;
+                                phoneDisplay.textContent = `Phone Number: ${currentPhone}`;
+                            }
+                        }
+                    });
+                }
+
+                // Add this inside the privacyButton click handler, after the phone number code
+                const editEmailBtn = document.getElementById('email-edit-btn');
+                const emailDisplay = document.getElementById('email-display');
+                const emailInput = document.getElementById('email-input');
+
+                if (editEmailBtn && emailDisplay && emailInput) {
+                    // Set initial email from localStorage
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                    const users = JSON.parse(localStorage.getItem('users') || '{}');
+                    const currentEmail = users[currentUser.username]?.email || 'example@email.com';
+                    emailDisplay.textContent = `Email: ${currentEmail}`;
+                    emailInput.value = currentEmail;
+
+                    editEmailBtn.addEventListener('click', function() {
+                        if (emailInput.classList.contains('hidden')) {
+                            // Switch to edit mode
+                            emailDisplay.classList.add('hidden');
+                            emailInput.classList.remove('hidden');
+                            editEmailBtn.textContent = 'Save';
+                            editEmailBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                            editEmailBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                            emailInput.focus();
+                        } else {
+                            try {
+                                // Basic email validation
+                                const newEmail = emailInput.value;
+                                if (!newEmail.includes('@') || !newEmail.includes('.')) {
+                                    alert('Please enter a valid email address');
+                                    return;
+                                }
+
+                                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+                                if (currentUser.username && users[currentUser.username]) {
+                                    // Update email in users object
+                                    users[currentUser.username].email = newEmail;
+                                    localStorage.setItem('users', JSON.stringify(users));
+
+                                    // Update display
+                                    emailDisplay.textContent = `Email: ${newEmail}`;
+                                    emailDisplay.classList.remove('hidden');
+                                    emailInput.classList.add('hidden');
+                                    editEmailBtn.textContent = 'Change Email';
+                                    editEmailBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                                    editEmailBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+
+                                    // Verify storage update
+                                    const verifyUsers = JSON.parse(localStorage.getItem('users'));
+                                    console.log('Verification - Email in storage:', verifyUsers[currentUser.username].email);
+
+                                    alert('Email updated successfully');
+                                }
+                            } catch (error) {
+                                console.error('Error updating email:', error);
+                                alert('Error updating email');
+                                // Revert on error
+                                emailInput.value = currentEmail;
+                                emailDisplay.textContent = `Email: ${currentEmail}`;
+                            }
+                        }
+                    });
+                }
+
+                // Update the password button handler inside privacyButton click handler
+                const editPasswordBtn = document.getElementById('password-edit-btn');
+                const passwordDisplay = document.getElementById('password-display');
+                const passwordInput = document.getElementById('password-input');
+
+                if (editPasswordBtn && passwordDisplay && passwordInput) {
+                    // Remove any existing event listeners
+                    editPasswordBtn.replaceWith(editPasswordBtn.cloneNode(true));
+                    const newPasswordBtn = document.getElementById('password-edit-btn');
+                    
+                    // Set display to show asterisks
+                    passwordDisplay.textContent = 'Password: *******';
+                    passwordInput.type = 'password';
+
+                    newPasswordBtn.addEventListener('click', function() {
+                        if (!document.getElementById('password-form')) {
+                            // Switch to edit mode
+                            passwordDisplay.classList.add('hidden');
+                            const passwordFormHtml = `
+                                <div class="space-y-3" id="password-form">
+                                    <input type="password" class="w-full px-3 py-2 text-lg text-gray-700 border rounded-md" 
+                                           id="current-password" placeholder="Current Password">
+                                    <input type="password" class="w-full px-3 py-2 text-lg text-gray-700 border rounded-md" 
+                                           id="new-password" placeholder="New Password">
+                                    <input type="password" class="w-full px-3 py-2 text-lg text-gray-700 border rounded-md" 
+                                           id="confirm-password" placeholder="Confirm New Password">
+                                </div>
+                            `;
+                            passwordInput.insertAdjacentHTML('beforebegin', passwordFormHtml);
+                            passwordInput.classList.add('hidden');
+                            newPasswordBtn.textContent = 'Save';
+                            newPasswordBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                            newPasswordBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                        } else {
+                            try {
+                                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                                const currentPasswordInput = document.getElementById('current-password');
+                                const newPasswordInput = document.getElementById('new-password');
+                                const confirmPasswordInput = document.getElementById('confirm-password');
+                                const passwordForm = document.getElementById('password-form');
+
+                                const currentPassword = currentPasswordInput.value;
+                                const newPassword = newPasswordInput.value;
+                                const confirmPassword = confirmPasswordInput.value;
+
+                                if (users[currentUser.username].password !== currentPassword) {
+                                    alert('Current password is incorrect');
+                                    return;
+                                }
+
+                                if (newPassword !== confirmPassword) {
+                                    alert('New passwords do not match');
+                                    return;
+                                }
+
+                                if (!newPassword) {
+                                    alert('New password cannot be empty');
+                                    return;
+                                }
+
+                                // Update password
+                                users[currentUser.username].password = newPassword;
+                                localStorage.setItem('users', JSON.stringify(users));
+
+                                // Update display and close editor
+                                passwordDisplay.textContent = 'Password: *******';
+                                passwordDisplay.classList.remove('hidden');
+                                if (passwordForm) {
+                                    passwordForm.remove();
+                                }
+                                newPasswordBtn.textContent = 'Change Password';
+                                newPasswordBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                                newPasswordBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+
+                                alert('Password updated successfully');
+                            } catch (error) {
+                                console.error('Error updating password:', error);
+                                alert('Error updating password');
+                                resetPasswordForm();
+                            }
+                        }
+                    });
+                }
+
+                function resetPasswordForm() {
+                    const passwordForm = document.getElementById('password-form');
+                    const passwordDisplay = document.getElementById('password-display');
+                    const editPasswordBtn = document.getElementById('password-edit-btn');
+                    
+                    passwordDisplay.classList.remove('hidden');
+                    if (passwordForm) {
+                        passwordForm.remove();
+                    }
+                    editPasswordBtn.textContent = 'Change Password';
+                    editPasswordBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    editPasswordBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                }
+            });
+
+            preferencesButton.addEventListener('click', function() {
+                mainContent.innerHTML = `
+                    <div class="space-y-6">
+                        ${createEditableField('Language', 'English (US)', 'Change Language', false, 'language')}
+                    </div>
+                `;
+            });
+
+            document.addEventListener('change', function(e) {
+    if (e.target && e.target.id === 'profile-pic-input') {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageData = e.target.result;
+                if (updateProfilePicture(imageData)) {
+                    // Update the preview in settings page
+                    document.getElementById('profile-pic').src = imageData;
+                    alert('Profile picture updated successfully!');
+                } else {
+                    alert('Failed to update profile picture');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+});
+        });
+    </script>
+    <footer class="bg-gray-800 mt-8">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <img class="h-8 w-auto" src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                    <span class="text-white ml-3">© 2025 SkillSwap</span>
+                </div>
+                <a href="about.html" class="text-gray-300 hover:text-white transition-colors">About</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communication - SkillSwap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/4ZDrJqt.png">
+    <style>
+        body {
+            background: linear-gradient(180deg, #ffffff 0%, #e6f0ff 35%, #cce0ff 70%, #b3d1ff 100%);
+            min-height: 100vh;
+        }
+        .chat-container {
+            height: calc(100vh - 200px);
+        }
+        .messages {
+            height: calc(100% - 60px);
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-800">
+        <div class="w-full px-2">
+            <div class="relative flex h-16 items-center justify-between">
+                <!-- Left side: Logo and Brand -->
+                <div class="flex items-center">
+                    <img class="h-8 w-auto fade-in" data-fade src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                    <h1 class="text-2xl font-bold text-white ml-3">SkillSwap</h1>
+                    
+                    <!-- Navigation Links -->
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <a href="homepage_afs.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
+                            <a href="find_teachers.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Find Teachers</a>
+                            <a href="ai_assistant.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">AI Assistant</a>
+                            <a href="communication.html" class="bg-gray-900 rounded-md px-3 py-2 text-sm font-medium text-white">Communication</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Right side: Notification and Profile -->
+                <div class="flex items-center space-x-4 mr-4">
+                    <!-- Notification Bell -->
+                    <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">View notifications</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                        </svg>
+                    </button>
+    
+                    <!-- Profile Dropdown -->
+                    <div class="relative">
+                        <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">Open user menu</span>
+                            <img class="h-8 w-8 rounded-full header-profile-pic" src="https://i.imgur.com/V4RclNb.jpeg" alt="">
+                        </button>
+                        <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" id="profile-dropdown">
+                            <span class="block px-4 py-2 text-sm text-gray-700 cursor-default" role="menuitem" id="umip_dyanmic">Kedar Kalluri</span>
+                            <a href="profile.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umip">Your Profile</a>
+                            <a href="settings.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umis">Settings</a>
+                            <a href="homepage_bfs.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umisi">Sign out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 py-6">
+        <div class="flex chat-container">
+            <!-- Connections Sidebar -->
+            <div class="w-1/4 bg-white rounded-lg shadow-md p-4 mr-4">
+                <h2 class="text-xl font-bold mb-4">Connections</h2>
+                <div class="space-y-4">
+                    <!-- Connections will be loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="flex-1 bg-white rounded-lg shadow-md p-4">
+                <div class="flex flex-col h-full">
+                    <!-- Chat Header -->
+                    <div class="pb-4 border-b flex justify-between items-center">
+                        <h2 class="text-xl font-bold">Select a connection to start chatting</h2>
+                        <a href="WEB_UIKITS.html" class="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            Video Call
+                        </a>
+                    </div>
+
+                    <!-- Messages -->
+                    <div class="messages flex-1 py-4 space-y-4">
+                        <!-- Messages will be loaded dynamically -->
+                    </div>
+
+                    <!-- Message Input -->
+                    <div class="border-t pt-4">
+                        <form class="flex items-center">
+                            <input type="text" placeholder="Type your message..." class="flex-1 border rounded-l-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
+                                Send
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Debug logging
+    console.log('Current User:', localStorage.getItem('currentUser'));
+    console.log('Users:', localStorage.getItem('users'));
+    console.log('Chats:', localStorage.getItem('chats'));
+
+    // Initialize test data if nothing exists
+    if (!localStorage.getItem('currentUser') || !localStorage.getItem('users')) {
+        const testData = {
+            currentUser: {
+                username: 'user1',
+                firstName: 'John',
+                lastName: 'Doe'
+            },
+            users: {
+                'user1': {
+                    username: 'user1',
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    connections: ['user2']
+                },
+                'user2': {
+                    username: 'user2',
+                    firstName: 'Jane',
+                    lastName: 'Smith',
+                    connections: ['user1']
+                }
+            }
+        };
+
+        localStorage.setItem('currentUser', JSON.stringify(testData.currentUser));
+        localStorage.setItem('users', JSON.stringify(testData.users));
+    }
+
+    // Initialize chat data in localStorage if it doesn't exist
+    if (!localStorage.getItem('chats')) {
+        localStorage.setItem('chats', JSON.stringify({}));
+    }
+    
+    // Get current user and users data
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const users = JSON.parse(localStorage.getItem('users'));
+    const chats = JSON.parse(localStorage.getItem('chats'));
+    
+    // Function to load connections
+    function loadConnections() {
+        const connectionsContainer = document.querySelector('.space-y-4');
+        const connections = users[currentUser.username].connections || [];
+        
+        connectionsContainer.innerHTML = connections.map(connectionUsername => {
+            const connection = users[connectionUsername];
+            return `
+                <div class="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer" 
+                     onclick="loadChat('${connectionUsername}')">
+                    <img src="${connection.profilePicture || 'https://i.imgur.com/V4RclNb.jpeg'}" 
+                         alt="${connection.firstName}" class="w-10 h-10 rounded-full">
+                    <div class="ml-3">
+                        <p class="font-medium">${connection.firstName} ${connection.lastName}</p>
+                        <p class="text-sm text-gray-500">${connection.skills ? connection.skills[0] : 'User'}</p>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    // Function to load chat with specific user
+    function loadChat(receiverUsername) {
+        const chatHeader = document.querySelector('.pb-4.border-b h2');
+        const receiver = users[receiverUsername];
+        chatHeader.textContent = `Chat with ${receiver.firstName} ${receiver.lastName}`;
+        
+        // Enable input and button
+        const input = document.querySelector('input');
+        const button = document.querySelector('button[type="submit"]');
+        input.disabled = false;
+        button.disabled = false;
+        
+        // Create unique chat ID
+        const chatId = [currentUser.username, receiverUsername].sort().join('-');
+        document.querySelector('.messages').setAttribute('data-chat-id', chatId);
+        
+        // Initialize chat if it doesn't exist
+        if (!chats[chatId]) {
+            chats[chatId] = [];
+            localStorage.setItem('chats', JSON.stringify(chats));
+        }
+        
+        displayMessages(chatId);
+    }
+    
+    // Function to display messages
+    function displayMessages(chatId) {
+        const messagesContainer = document.querySelector('.messages');
+        const messages = chats[chatId] || [];
+        
+        messagesContainer.innerHTML = messages.map(msg => {
+            const isCurrentUser = msg.sender === currentUser.username;
+            return `
+                <div class="flex justify-${isCurrentUser ? 'end' : 'start'}">
+                    <div class="bg-${isCurrentUser ? 'blue' : 'gray'}-100 rounded-lg p-3 max-w-md">
+                        <p class="text-sm">${msg.content}</p>
+                        <p class="text-xs text-gray-500 mt-1">${msg.timestamp}</p>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    // Handle sending messages
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const input = this.querySelector('input');
+        const message = input.value.trim();
+        const chatId = document.querySelector('.messages').getAttribute('data-chat-id');
+        
+        if (message && chatId) {
+            // Get fresh chat data from localStorage
+            let currentChats = JSON.parse(localStorage.getItem('chats')) || {};
+            
+            const newMessage = {
+                sender: currentUser.username,
+                content: message,
+                timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            };
+            
+            currentChats[chatId] = currentChats[chatId] || [];
+            currentChats[chatId].push(newMessage);
+            
+            // Save back to localStorage
+            localStorage.setItem('chats', JSON.stringify(currentChats));
+            
+            // Update local chats variable
+            chats[chatId] = currentChats[chatId];
+            
+            displayMessages(chatId);
+            input.value = '';
+            
+            // Debug log
+            console.log('Saved chat:', JSON.parse(localStorage.getItem('chats')));
+        }
+    });
+    
+    // Load user's connections when page loads
+    document.addEventListener('DOMContentLoaded', loadConnections);
+    
+    // Check for new messages every 5 seconds
+    setInterval(() => {
+        const chatId = document.querySelector('.messages').getAttribute('data-chat-id');
+        if (chatId) {
+            const updatedChats = JSON.parse(localStorage.getItem('chats'));
+            if (JSON.stringify(updatedChats[chatId]) !== JSON.stringify(chats[chatId])) {
+                chats[chatId] = updatedChats[chatId];
+                displayMessages(chatId);
+            }
+        }
+    }, 5000);
+
+    // Debug function
+    function debugStorage() {
+        console.log('===== DEBUG =====');
+        console.log('CurrentUser:', JSON.parse(localStorage.getItem('currentUser')));
+        console.log('Users:', JSON.parse(localStorage.getItem('users')));
+        console.log('Chats:', JSON.parse(localStorage.getItem('chats')));
+        console.log('================');
+    }
+
+    // Call debug function when loading
+    debugStorage();
+    document.addEventListener("DOMContentLoaded", function() {
+    const profileButton = document.getElementById('user-menu-button');
+    const dropdownMenu = document.getElementById('profile-dropdown');
+    const dyanmic = document.getElementById('umip_dyanmic');
+    
+    // Update username in dropdown
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && users && users[currentUser.username] && users[currentUser.username].profilePicture) {
+        const profilePic = document.querySelector('#user-menu-button img');
+        if (profilePic) {
+            profilePic.src = users[currentUser.username].profilePicture;
+            profilePic.onerror = function() {
+                this.src = 'https://i.imgur.com/V4RclNb.png';
+            };
+        }
+    }
+    if (currentUser && currentUser.firstName && currentUser.lastName) {
+        dyanmic.textContent = `${currentUser.firstName} ${currentUser.lastName}`;
+    }
+
+    if (profileButton && dropdownMenu) {
+        profileButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!profileButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+    }
+});
+
+    </script>
+</body>
+</html>

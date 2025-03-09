@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            background: linear-gradient(180deg, #ffffff 0%, #e6f0ff 35%, #cce0ff 70%, #b3d1ff 100%);
+            min-height: 100vh;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/4ZDrJqt.png">
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-gray-800">
+        <div class="w-full px-4">
+            <div class="relative flex h-16 items-center">
+                <!-- Logo and Brand Name - Left Side -->
+                <div class="flex-shrink-0 flex items-center pl-0">
+                    <img class="h-8 w-auto" src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                    <h1 class="text-2xl font-bold text-white ml-3">SkillSwap</h1>
+                </div>
+
+                <!-- Spacer to push auth buttons to the right -->
+                <div class="flex-grow"></div>
+
+                <!-- Auth Buttons - Right Side -->
+                <div class="hidden sm:flex sm:items-center pr-0">
+                    <a href="sign_in.html" class="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700" id="umisi">
+                        Sign in or Sign up
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <img class="h-24 w-24 rounded-full" src="https://i.imgur.com/4ZDrJqt.png" alt="User Avatar">
+                <div class="ml-6">
+                    <h2 class="text-3xl font-bold text-gray-800">John Doe</h2>
+                    <p class="text-lg text-gray-600">Software Developer</p>
+                </div>
+            </div>
+            <div class="mt-6">
+                <h3 class="text-2xl font-bold text-gray-800">About Me</h3>
+                <p class="text-lg text-gray-600 mt-2">I am a passionate software developer with experience in building web applications using modern technologies. I love to learn and share knowledge with others.</p>
+            </div>
+            <div class="mt-6">
+                <h3 class="text-2xl font-bold text-gray-800">Skills</h3>
+                <ul class="list-disc list-inside text-lg text-gray-600 mt-2">
+                    <li>JavaScript</li>
+                    <li>React</li>
+                    <li>Node.js</li>
+                    <li>Python</li>
+                    <li>HTML & CSS</li>
+                </ul>
+            </div>
+            <div class="mt-6">
+                <h3 class="text-2xl font-bold text-gray-800">Contact</h3>
+                <p class="text-lg text-gray-600 mt-2">Email: john.doe@example.com</p>
+                <p class="text-lg text-gray-600">Phone: (123) 456-7890</p>
+            </div>
+        </div>
+        <footer class="bg-gray-800 mt-8">
+            <div class="max-w-7xl mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img class="h-8 w-auto" src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                        <span class="text-white ml-3">© 2025 SkillSwap</span>
+                    </div>
+                    <a href="about.html" class="text-gray-300 hover:text-white transition-colors">About</a>
+                </div>
+            </div>
+        </footer>
+</body>
+</html>

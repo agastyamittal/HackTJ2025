@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap Video Call</title>
+    <style>
+        #root {
+            width: 100vw;
+            height: 100vh;
+        }
+        /* Add this to ensure logo is visible */
+        .logo-image {
+            display: block;
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link rel="stylesheet" href="fade_in.css"> -->
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <nav class="bg-gray-800">
+        <div class="w-full px-2">
+            <div class="relative flex h-16 items-center justify-between">
+                <!-- Left side: Logo and Brand -->
+                <div class="flex items-center">
+                    <img 
+                        class="logo-image"
+                        src="https://i.imgur.com/4ZDrJqt.png"
+                        alt="SkillSwap"
+                        onerror="this.onerror=null; this.src='fallback-logo.png';"
+                    >
+                    <h1 class="text-2xl font-bold text-white ml-3">SkillSwap</h1>
+                    
+                    <!-- Navigation Links -->
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <a href="homepage_afs.html" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" aria-current="page">Dashboard</a>
+                            <a href="find_teachers.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Find Teachers</a>
+                            <a href="ai_assistant.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">AI Assistant</a>
+                            <a href="communication.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Communication</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Right side: Notification and Profile -->
+                <div class="flex items-center space-x-4 mr-4">
+                    <!-- Notification Bell -->
+                    <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">View notifications</span>
+                        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                        </svg>
+                    </button>
+    
+                    <!-- Profile Dropdown -->
+                    <div class="relative">
+                        <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">Open user menu</span>
+                            <img class="h-8 w-8 rounded-full header-profile-pic" src="https://i.imgur.com/V4RclNb.jpeg" alt="">
+                          </button>
+                        <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" id="profile-dropdown">
+                            <span class="block px-4 py-2 text-sm text-gray-700 cursor-default" role="menuitem" id="umip_dyanmic">Kedar Kalluri</span>
+                            <a href="profile.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umip">Your Profile</a>
+                            <a href="settings.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umis">Settings</a>
+                            <a href="homepage_bfs.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umisi">Sign out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="root"></div>
+    
+    <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+    <script>
+        window.onload = function () {
+            function getUrlParams(url) {
+                let urlStr = url.split('?')[1];
+                const urlSearchParams = new URLSearchParams(urlStr);
+                const result = Object.fromEntries(urlSearchParams.entries());
+                return result;
+            }
+    
+            // Generate a Token by calling a method.
+            // @param 1: appID
+            // @param 2: serverSecret
+            // @param 3: Room ID
+            // @param 4: User ID
+            // @param 5: Username
+            const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
+            const userID = Math.floor(Math.random() * 10000) + "";
+            const userName = "userName" + userID;
+            const appID = 1002684708;
+            const serverSecret = "f38a53f5e3d8a7ba5eb148b5b24f25dc";
+            const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+    
+            const zp = ZegoUIKitPrebuilt.create(kitToken);
+            zp.joinRoom({
+                container: document.querySelector("#root"),
+                sharedLinks: [{
+                    name: 'Personal link',
+                    url: window.location.protocol + '//' + window.location.host  + window.location.pathname + '?roomID=' + roomID,
+                }],
+                scenario: {
+                    mode: ZegoUIKitPrebuilt.VideoConference,
+                },
+                    
+                turnOnMicrophoneWhenJoining: true,
+                turnOnCameraWhenJoining: true,
+                showMyCameraToggleButton: true,
+                showMyMicrophoneToggleButton: true,
+                showAudioVideoSettingsButton: true,
+                showScreenSharingButton: true,
+                showTextChat: true,
+                showUserList: true,
+                maxUsers: 2,
+                layout: "Auto",
+                showLayoutButton: false,
+             
+            });
+        }
+    </script>
+</body>
+
+</html>

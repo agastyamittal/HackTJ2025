@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/4ZDrJqt.png" class="fade-in" data-fade>
+    <link rel="stylesheet" href="fade_in.css">
+    <style>
+        body {
+            background: linear-gradient(180deg, #ffffff 0%, #e6f0ff 35%, #cce0ff 70%, #b3d1ff 100%);
+            min-height: 100vh;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <canvas id="particles-js"></canvas>
+    <nav class="bg-gray-800">
+        <div class="w-full px-2">
+            <div class="relative flex h-16 items-center justify-between">
+                <!-- Left side: Logo and Brand -->
+                <div class="flex items-center">
+                    <img class="h-8 w-auto fade-in" data-fade src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                    <h1 class="text-2xl font-bold text-white ml-3">SkillSwap</h1>
+                    
+                    <!-- Navigation Links -->
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <a href="homepage_afs.html" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" aria-current="page">Dashboard</a>
+                            <a href="find_teachers.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Find Teachers</a>
+                            <a href="ai_assistant.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">AI Assistant</a>
+                            <a href="communication.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Communication</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Right side: Notification and Profile -->
+                <div class="flex items-center space-x-4 mr-4">
+                    <!-- Notification Bell -->
+                    <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">View notifications</span>
+                        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                        </svg>
+                    </button>
+    
+                    <!-- Profile Dropdown -->
+                    <div class="relative">
+                        <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">Open user menu</span>
+                            <img class="h-8 w-8 rounded-full header-profile-pic" src="https://i.imgur.com/VAn4QsU.jpeg" alt="">
+                          </button>
+                        <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" id="profile-dropdown">
+                            <span class="block px-4 py-2 text-sm text-gray-700 cursor-default" role="menuitem" id="umip_dyanmic">Kedar Kalluri</span>
+                            <a href="profile.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umip">Your Profile</a>
+                            <a href="settings.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umis">Settings</a>
+                            <a href="homepage_bfs.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umisi">Sign out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex justify-center mt-8">
+        <div class="w-64 h-64 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+            <img src="https://i.imgur.com/VAn4QsU.jpeg" alt="Profile Image" class="w-full h-full object-cover rounded-full fade-in" data-fade />
+        </div>
+    </div>
+    
+    <!-- Greeting text -->
+    <div class="text-center mt-4">
+        <h2 class="text-4xl font-extrabold text-gray-900">Welcome!!</h2>
+    </div>
+
+    <div class="max-w-[98%] mx-auto px-2">
+        <div class="mt-8">
+            <div class="flex justify-between items-end mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">Connection Requests</h2>
+                <a href="connection_requests.html" class="text-base text-gray-600 hover:text-gray-900">See all</a>
+            </div>
+            <!-- Profile Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="connection-requests-grid">
+                <!-- Connection requests will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommended Matches Section -->
+    <div class="max-w-[98%] mx-auto px-2">
+        <div class="mt-8">
+            <div class="flex justify-between items-end mb-6">
+                <h2 class="text-3xl font-bold text-gray-900 fade-in" data-fade>Recommended Matches</h2>
+<a href="recommended_matches.html" class="text-base text-gray-600 hover:text-gray-900 fade-in" data-fade>See all</a>
+            </div>
+            <!-- Profile Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="recommended-matches-grid">
+                <!-- Profile Cards will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Connection Requests Section -->
+    <div class="max-w-[98%] mx-auto px-2">
+        <div class="mt-8">
+            <div class="flex justify-between items-end mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">Current Connections</h2>
+                <a href="current_connections.html" class="text-base text-gray-600 hover:text-gray-900">See all</a>
+            </div>
+            <!-- Replace static grid with dynamic one -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="current-connections-grid">
+                <!-- Dynamic content will be inserted here by updateCurrentConnections() -->
+            </div>
+        </div>
+    </div>
+
+
+    <script src="main.js"></script>
+    
+    <script>
+      // Add before your existing DOMContentLoaded event
+      function updateConnectionsDisplay() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const users = JSON.parse(localStorage.getItem('users'));
+    const requestsGrid = document.getElementById('connection-requests-grid');
+    
+    if (requestsGrid) {
+        const requests = users[currentUser.username].connectionRequests || [];
+        
+        if (requests.length > 0) {
+            requestsGrid.innerHTML = requests.map(request => {
+                const requester = users[request.from];
+                return `
+                    <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow">
+                        <img src="${requester.profilePicture || 'https://i.imgur.com/VAn4QsU.jpeg'}" 
+                             alt="${requester.firstName}" 
+                             class="w-40 h-40 rounded-full mb-2 cursor-pointer"
+                             onclick="viewProfile('${request.from}')">
+                        <span class="font-medium text-lg mb-2">${requester.firstName} ${requester.lastName}</span>
+                        <div class="flex gap-2">
+                            <button onclick="handleConnectionResponse('${request.from}', true)"
+                                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
+                                Accept
+                            </button>
+                            <button onclick="handleConnectionResponse('${request.from}', false)"
+                                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors">
+                                Decline
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        } else {
+            requestsGrid.innerHTML = `
+                <div class="col-span-full text-center text-gray-500 py-8">
+                    No pending connection requests
+                </div>
+            `;
+        }
+    }
+}
+function handleConnectionResponse(requestFromUsername, accept) {
+    try {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const users = JSON.parse(localStorage.getItem('users'));
+        
+        if (!users[currentUser.username].connectionRequests) {
+            users[currentUser.username].connectionRequests = [];
+        }
+        
+        // Remove request
+        users[currentUser.username].connectionRequests = 
+            users[currentUser.username].connectionRequests.filter(req => 
+                req.from !== requestFromUsername
+            );
+        
+        if (accept) {
+            // Initialize connections arrays if they don't exist
+            if (!users[currentUser.username].connections) {
+                users[currentUser.username].connections = [];
+            }
+            if (!users[requestFromUsername].connections) {
+                users[requestFromUsername].connections = [];
+            }
+            
+            // Add to both users' connections
+            if (!users[currentUser.username].connections.includes(requestFromUsername)) {
+                users[currentUser.username].connections.push(requestFromUsername);
+            }
+            if (!users[requestFromUsername].connections.includes(currentUser.username)) {
+                users[requestFromUsername].connections.push(currentUser.username);
+            }
+            
+            console.log('Connection accepted:', requestFromUsername); // Debug log
+        }
+        
+        localStorage.setItem('users', JSON.stringify(users));
+        updateConnectionsDisplay();
+        updateCurrentConnections();
+    } catch (error) {
+        console.error('Error handling connection response:', error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Get DOM elements
+    const profileButton = document.getElementById('user-menu-button');
+    const dropdownMenu = document.getElementById('profile-dropdown');
+    const profilePictures = document.querySelectorAll('img[src*="unsplash.com"], img[src*="VAn4QsU.jpeg"]');
+    const greetingElement = document.querySelector('.text-4xl.font-extrabold');
+    const dpdn_name = document.getElementById('umip_dyanmic');
+    const recommendedMatchesGrid = document.getElementById('recommended-matches-grid');
+    
+    // Get user data
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const users = JSON.parse(localStorage.getItem('users'));
+
+    // Update user interface elements
+    if (currentUser && users && users[currentUser.username]) {
+        const userData = users[currentUser.username];
+        
+        // Update profile pictures
+        if (userData.profilePicture) {
+            profilePictures.forEach(img => {
+                img.src = userData.profilePicture;
+                console.log('Updated profile picture:', img.src);
+            });
+        }
+
+        // Update greeting and dropdown name
+        if (currentUser.firstName && currentUser.lastName) {
+            greetingElement.textContent = `Hello, ${currentUser.firstName} ${currentUser.lastName}!`;
+            dpdn_name.textContent = `${currentUser.firstName} ${currentUser.lastName}`;
+        }
+    }
+
+    // Handle profile picture errors
+    profilePictures.forEach(img => {
+        img.onerror = function() {
+            console.error('Failed to load profile picture');
+            img.src = 'https://i.imgur.com/VAn4QsU.jpeg';
+        };
+    });
+
+    // Handle dropdown toggle
+    if (profileButton && dropdownMenu) {
+        profileButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            dropdownMenu.classList.toggle('hidden');
+            console.log('Dropdown toggled');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!profileButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+    } else {
+        console.error('Profile button or dropdown menu not found');
+    }
+
+    // Initialize all displays
+    updateConnectionsDisplay();
+    updateCurrentConnections();
+    updateRecommendedMatches();
+});
+    </script>
+    <script>
+        
+        function viewProfile(username) {
+    // Store the username to view in localStorage
+    localStorage.setItem('viewProfile', username);
+    // Redirect to the profile page
+    window.location.href = 'profile.html';
+}
+
+function updateCurrentConnections() {
+    try {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const users = JSON.parse(localStorage.getItem('users'));
+        const connectionsGrid = document.getElementById('current-connections-grid');
+        
+        console.log('Current user:', currentUser); // Debug log
+        console.log('Connections:', users[currentUser.username].connections); // Debug log
+        
+        if (connectionsGrid && currentUser && users) {
+            const connections = users[currentUser.username].connections || [];
+            
+            if (connections.length > 0) {
+                connectionsGrid.innerHTML = connections.map(connectionUsername => {
+                    const connection = users[connectionUsername];
+                    return `
+                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow">
+                            <img src="${connection.profilePicture || 'https://i.imgur.com/VAn4QsU.jpeg'}" 
+                                 alt="${connection.firstName}" 
+                                 class="w-40 h-40 rounded-full mb-2 cursor-pointer"
+                                 onclick="viewProfile('${connectionUsername}')">
+                            <span class="font-medium text-lg mb-2">${connection.firstName} ${connection.lastName}</span>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                connectionsGrid.innerHTML = `
+                    <div class="col-span-full text-center text-gray-500 py-8">
+                        No current connections
+                    </div>
+                `;
+            }
+        }
+    } catch (error) {
+        console.error('Error updating current connections:', error);
+    }
+}
+
+function updateRecommendedMatches() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const users = JSON.parse(localStorage.getItem('users'));
+    const recommendedMatchesGrid = document.getElementById('recommended-matches-grid');
+
+    if (recommendedMatchesGrid && currentUser && users) {
+        const matches = findPotentialMatches(currentUser, users);
+
+        if (matches.length > 0) {
+            recommendedMatchesGrid.innerHTML = matches.map(match => `
+    <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow">
+        <img src="${match.profilePicture || 'https://i.imgur.com/VAn4QsU.jpeg'}" 
+             alt="${match.firstName}" 
+             class="w-40 h-40 rounded-full mb-2 cursor-pointer"
+             onclick="viewProfile('${match.username}')">
+        <span class="font-medium text-lg mb-2">${match.firstName} ${match.lastName}</span>
+        <span class="text-sm text-gray-500 mb-2">Skills: ${match.skills.join(', ')}</span>
+        <button onclick="sendConnectionRequest('${match.username}')"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+            ${users[match.username].connectionRequests?.some(req => req.from === currentUser.username) 
+              ? 'Request Sent' 
+              : 'Connect'}
+        </button>
+    </div>
+`).join('');
+        } else {
+            recommendedMatchesGrid.innerHTML = `
+                <div class="col-span-full text-center text-gray-500 py-8">
+                    No recommended matches available
+                </div>
+            `;
+        }
+    }
+}
+
+function findPotentialMatches(currentUser, users) {
+    const matches = [];
+    const currentUserData = users[currentUser.username];
+    const currentConnections = currentUserData.connections || [];
+    const pendingRequests = currentUserData.connectionRequests || [];
+    
+    for (const [username, userData] of Object.entries(users)) {
+        if (username !== currentUser.username && 
+            !currentConnections.includes(username) && 
+            !pendingRequests.some(req => req.from === username)) {
+            
+            const skillMatch = currentUserData.skills?.some(skill => 
+                userData.interests?.includes(skill)) || false;
+            
+            const interestMatch = currentUserData.interests?.some(interest => 
+                userData.skills?.includes(interest)) || false;
+
+            if (skillMatch || interestMatch) {
+                matches.push({
+                    username,
+                    firstName: userData.firstName,
+                    lastName: userData.lastName,
+                    profilePicture: userData.profilePicture,
+                    skills: userData.skills || []
+                });
+            }
+        }
+    }
+    return matches;
+}
+
+function sendConnectionRequest(targetUsername) {
+    try {
+        const users = JSON.parse(localStorage.getItem('users'));
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        if (!users[targetUsername].connectionRequests) {
+            users[targetUsername].connectionRequests = [];
+        }
+
+        // Check if request already exists
+        if (!users[targetUsername].connectionRequests.some(req => req.from === currentUser.username)) {
+            users[targetUsername].connectionRequests.push({
+                from: currentUser.username,
+                timestamp: new Date().toISOString()
+            });
+
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Find and update the button for this specific user
+            const button = document.querySelector(`button[onclick="sendConnectionRequest('${targetUsername}')"]`);
+            if (button) {
+                button.textContent = 'Request Sent';
+                button.disabled = true;
+                button.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                button.classList.add('bg-gray-400');
+            }
+        }
+    } catch (error) {
+        console.error('Error sending connection request:', error);
+    }
+}
+</script>
+<script src="fade_in.js"></script>
+<!-- Add this script before the closing body tag -->
+<script>
+const canvas = document.getElementById('particles-js');
+const ctx = canvas.getContext('2d');
+
+// Set canvas size
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// Particle class
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 0.5 - 0.25;
+    }
+
+    update(mouseX, mouseY) {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        // Wrap around screen
+        if (this.x > canvas.width) this.x = 0;
+        if (this.x < 0) this.x = canvas.width;
+        if (this.y > canvas.height) this.y = 0;
+        if (this.y < 0) this.y = canvas.height;
+
+        // Push away from mouse
+        const dx = this.x - mouseX;
+        const dy = this.y - mouseY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < 100) { // Sensitivity range
+            const angle = Math.atan2(dy, dx);
+            this.x += Math.cos(angle) * 2; // Push speed
+            this.y += Math.sin(angle) * 2; // Push speed
+        }
+    }
+
+    draw() {
+        ctx.fillStyle = '#3B82F6';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+const particles = Array.from({ length: 50 }, () => new Particle());
+let mouseX = 0;
+let mouseY = 0;
+
+window.addEventListener('mousemove', (e) => {
+    mouseX = e.x;
+    mouseY = e.y;
+});
+
+function drawLines() {
+    particles.forEach((p1) => {
+        particles.forEach((p2) => {
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 100) {
+                ctx.strokeStyle = `rgba(59, 130, 246, ${1 - distance / 100})`;
+                ctx.lineWidth = 0.5;
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+            }
+        });
+    });
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(particle => {
+        particle.update(mouseX, mouseY);
+        particle.draw();
+    });
+    drawLines();
+    requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+<!-- Footer -->
+<footer class="bg-gray-800 mt-8">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <img class="h-8 w-auto" src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                <span class="text-white ml-3">© 2025 SkillSwap</span>
+            </div>
+            <a href="about.html" class="text-gray-300 hover:text-white transition-colors">About</a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

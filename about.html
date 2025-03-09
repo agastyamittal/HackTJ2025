@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/4ZDrJqt.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+      body {
+          background: linear-gradient(180deg, #ffffff 0%, #e6f0ff 35%, #cce0ff 70%, #b3d1ff 100%);
+          min-height: 100vh;
+      }
+      #particles-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+    <canvas id="particles-js"></canvas>
+    <nav class="bg-gray-800">
+        <div class="w-full px-2">
+            <div class="relative flex h-16 items-center justify-between">
+                <!-- Left side: Logo and Brand -->
+                <div class="flex items-center">
+                    <img class="h-8 w-auto fade-in" data-fade src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                    <h1 class="text-2xl font-bold text-white ml-3">SkillSwap</h1>
+                    
+                    <!-- Navigation Links -->
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <a href="homepage_afs.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
+                            <a href="find_teachers.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Find Teachers</a>
+                            <a href="ai_assistant.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">AI Assistant</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Right side: Notification and Profile -->
+                <div class="flex items-center space-x-4 mr-4">
+                    <!-- Notification Bell -->
+                    <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">View notifications</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                        </svg>
+                    </button>
+    
+                    <!-- Profile Dropdown -->
+                    <div class="relative">
+                        <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">Open user menu</span>
+                            <img class="h-8 w-8 rounded-full header-profile-pic" src="https://i.imgur.com/VAn4QsU.jpeg" alt="">
+                        </button>
+                        
+                        <!-- Dropdown menu -->
+                        <div id="profile-dropdown" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu">
+                            <span class="block px-4 py-2 text-sm text-gray-700 cursor-default" role="menuitem" id="umip_dyanmic">Kedar Kalluri</span>
+                            <a href="profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="umip">Profile</a>
+                            <a href="settings.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="umis">Settings</a>
+                            <a href="sign_out.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="umiso">Sign Out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script src="main.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const profileButton = document.getElementById('user-menu-button');
+        const dropdownMenu = document.getElementById('profile-dropdown');
+        
+        // Get current user from localStorage
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const users = JSON.parse(localStorage.getItem('users'));
+        
+        if (profileButton && dropdownMenu) {
+            profileButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                dropdownMenu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!profileButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
+        }
+
+        // Update profile picture if exists
+        if (currentUser && users && users[currentUser.username] && users[currentUser.username].profilePicture) {
+            const headerProfilePic = document.querySelector('.header-profile-pic');
+            if (headerProfilePic) {
+                headerProfilePic.src = users[currentUser.username].profilePicture;
+            }
+        }
+    });
+</script>
+    <img src="https://i.imgur.com/gvdjdtv.png" alt="SkillSwap" class="full-width-image fade-in" data-fade>
+    <div class="container mx-auto px-4 py-8">
+        <h2 class="text-3xl font-bold text-gray-800 text-center fade-in" data-fade>Welcome to SkillSwap!</h2>
+        <p class="text-lg text-gray-600 mt-2 text-center fade-in" data-fade>SkillSwap is a community-based platform where you swap skills with someone with similar interests.</p>
+        <div class="flex flex-wrap mt-8">
+            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-4 fade-in" data-fade>
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-800 text-center">Mutual Learning Experience</h3>
+                    <p class="text-gray-600 mt-2 text-center flex-grow">We match people who are interested in learning from someone and teaching them, with a person willing to teach and wanting to learn the opposite skills.</p>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-4 fade-in" data-fade>
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-800 text-center">Innovation for Impact</h3>
+                    <p class="text-gray-600 mt-2 text-center flex-grow">In a world where knowledge is money, free access to information becomes increasingly more important. Our mission is to help people have access to information and teaching someone free of cost.</p>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-4 fade-in" data-fade>
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-gray-800 text-center">Connect with others</h3>
+                    <p class="text-gray-600 mt-2 text-center flex-grow">Collaborative learning cultivates professional networks and enduring relationships. By exchanging knowledge and expertise within a supportive environment, individuals experience mutual personal and professional development.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="fade_in.js"></script>
+    <footer class="bg-gray-800 mt-8">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <img class="h-8 w-auto" src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                    <span class="text-white ml-3">© 2025 SkillSwap</span>
+                </div>
+                <a href="about.html" class="text-gray-300 hover:text-white transition-colors">About</a>
+            </div>
+        </div>
+    </footer>
+    <script src="particles.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', initParticles);
+</script>
+</body>
+</body>
+</html>

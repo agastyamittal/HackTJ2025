@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            textarea {
+        min-height: 38px !important;
+        max-height: 38px !important;
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        resize: none;
+    }
+            body {
+                background: linear-gradient(180deg, #ffffff 0%, #e6f0ff 35%, #cce0ff 70%, #b3d1ff 100%);
+                min-height: 100vh;
+                font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            }
+            #chatContainer::-webkit-scrollbar {
+                width: 6px;
+            }
+            #chatContainer::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+            #chatContainer::-webkit-scrollbar-thumb {
+                background: #c5c5c5;
+                border-radius: 3px;
+            }
+            #chatContainer::-webkit-scrollbar-thumb:hover {
+                background: #a8a8a8;
+            }
+            .message-in {
+                animation: slideIn 0.3s ease-out;
+            }
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            textarea {
+                min-height: 48px;
+                max-height: 48px;
+                resize: none;
+}
+        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SwapAI</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800">
+            <div class="w-full px-2">
+                <div class="relative flex h-16 items-center justify-between">
+                    <!-- Left side: Logo and Brand -->
+                    <div class="flex items-center">
+                        <img class="h-8 w-auto fade-in" data-fade src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                        <h1 class="text-2xl font-bold text-white ml-3">SkillSwap</h1>
+                        
+                        <!-- Navigation Links -->
+                        <div class="hidden sm:ml-6 sm:block">
+                            <div class="flex space-x-4">
+                                <a href="homepage_afs.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
+                                <a href="find_teachers.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Find Teachers</a>
+                                <a href="ai_assistant.html" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" aria-current="page">AI Assistant</a>
+                                <a href="communication.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Communication</a>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Right side: Notification and Profile -->
+                    <div class="flex items-center space-x-4 mr-4">
+                        <!-- Notification Bell -->
+                        <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">View notifications</span>
+                            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                            </svg>
+                        </button>
+        
+                        <!-- Profile Dropdown -->
+                        <div class="relative">
+                            <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button">
+                                <span class="absolute -inset-1.5"></span>
+                                <span class="sr-only">Open user menu</span>
+                                <img class="h-8 w-8 rounded-full header-profile-pic" src="https://i.imgur.com/V4RclNb.jpeg" alt="">
+                            </button>
+                            <div id="profile-dropdown" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu">
+                                <span class="block px-4 py-2 text-sm text-gray-700 cursor-default" role="menuitem" id="umip_dyanmic">Kedar Kalluri</span>
+                                <a href="profile.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umip">Your Profile</a>
+                                <a href="settings.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umis">Settings</a>
+                                <a href="homepage_bfs.html" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" id="umisi">Sign out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mx-auto px-4 py-8 fade-in max-w-4xl" data-fade>
+            <h1 class="text-center text-4xl font-extrabold text-gray-900 mb-2">SwapAI</h1>
+            <p class="text-lg text-center font-medium text-gray-600 mb-8">The AI chatbot that will teach you the basics for any topic.</p>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <!-- Chat Header -->
+                <div class="bg-gray-800 p-4 flex items-center">
+                    <div class="flex items-center">
+                        <div class="h-8 w-8 rounded-full flex items-center justify-center">
+                            <img src="https://i.imgur.com/4ZDrJqt.png" alt="AI" class="h-8 w-8 rounded-full">
+                        </div>
+                        <h2 class="ml-3 text-lg font-semibold text-white">AI Assistant</h2>
+                    </div>
+                    <div class="ml-auto flex space-x-2">
+                        <div class="h-2 w-2 rounded-full bg-green-400"></div>
+                        <span class="text-sm text-green-400">Online</span>
+                    </div>
+                </div>
+
+                <!-- Chat Messages Container -->
+                <div id="chatContainer" class="h-[32rem] overflow-y-auto p-4 bg-gray-50">
+                    <!-- Welcome Message -->
+                    <div class="flex items-start mb-4 message-in">
+                        <div class="flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center">
+                            <img src="https://i.imgur.com/4ZDrJqt.png" alt="AI" class="h-8 w-8 rounded-full">
+                        </div>
+                        <div class="ml-3 bg-white rounded-lg py-3 px-4 max-w-[80%] shadow-sm">
+                            <p class="text-gray-800">Hello! I'm SwapAI, your personal learning assistant. How can I help you today?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="p-4 border-t border-gray-200 bg-white">
+                    <div class="flex space-x-3">
+                        <div class="flex-grow relative">
+                            <textarea 
+                                id="promptInput" 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                placeholder="Type your message here..."
+                                rows="1"
+                                style="min-height: 48px; max-height: 150px;"
+                            ></textarea>
+                        </div>
+                        <button 
+    id="submitBtn" 
+    class="inline-flex items-center justify-center p-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+>
+    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+    </svg>
+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="ai_assistant_js.js"></script>
+        <script src="main.js"></script>
+        <script>
+            function createMessageElement(message, isAI = true) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'flex items-start mb-4 message-in';
+
+                if (isAI) {
+                    messageDiv.innerHTML = `
+                        <div class="flex w-full">
+                            <div class="flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center mr-3">
+                                <img src="https://i.imgur.com/4ZDrJqt.png" alt="AI" class="h-8 w-8 rounded-full">
+                            </div>
+                            <div class="bg-white rounded-lg py-3 px-4 max-w-[80%] shadow-sm">
+                                <p class="text-gray-800">${message}</p>
+                            </div>
+                        </div>`;
+                } else {
+                    messageDiv.innerHTML = `
+                        <div class="flex items-start justify-end w-full">
+                            <div class="bg-blue-600 rounded-lg py-3 px-4 max-w-[80%] shadow-sm">
+                                <p class="text-white">${message}</p>
+                            </div>
+                        </div>`;
+                }
+
+                return messageDiv;
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                const chatContainer = document.getElementById('chatContainer');
+                const promptInput = document.getElementById('promptInput');
+                const submitBtn = document.getElementById('submitBtn');
+                const profileButton = document.getElementById('user-menu-button');
+                const dropdownMenu = document.getElementById('profile-dropdown');
+                
+                // Get current user from localStorage
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                const dyanmic = document.getElementById('umip_dyanmic');
+                const users = JSON.parse(localStorage.getItem('users'));
+if (currentUser && users && users[currentUser.username]) {
+    const userData = users[currentUser.username];
+    if (userData.profilePicture) {
+        const headerProfilePic = document.querySelector('.header-profile-pic');
+        if (headerProfilePic) {
+            headerProfilePic.src = userData.profilePicture;
+        }
+    }
+}
+                // Update username in dropdown
+                if (currentUser && currentUser.firstName && currentUser.lastName) {
+                    dyanmic.textContent = `${currentUser.firstName} ${currentUser.lastName}`;
+                }
+
+                if (profileButton && dropdownMenu) {
+                    profileButton.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        dropdownMenu.classList.toggle('hidden');
+                    });                
+                    document.addEventListener('click', (event) => {
+                        if (!profileButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                            dropdownMenu.classList.add('hidden');
+                        }
+                    });
+                }
+
+                submitBtn.addEventListener('click', function() {
+                    const message = promptInput.value.trim();
+                    if (message) {
+                        // User message
+                        const userMessageElement = createMessageElement(message, false);
+                        chatContainer.appendChild(userMessageElement);
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+                        // Clear input and reset height
+                        promptInput.value = '';
+                        promptInput.style.height = '48px';
+
+                        // Let ai_assistant_js.js handle the API call and response
+                        // The response will be added to the chat through its own logic
+                    }
+                });
+
+                promptInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        submitBtn.click();
+                    }
+                });
+
+                // Textarea auto-resize
+                promptInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            });
+        </script>
+        <script src="fade_in.js"></script>
+        <footer class="bg-gray-800 mt-au">
+            <div class="max-w-7xl mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img class="h-8 w-auto" src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                        <span class="text-white ml-3">© 2025 SkillSwap</span>
+                    </div>
+                    <a href="about.html" class="text-gray-300 hover:text-white transition-colors">About</a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

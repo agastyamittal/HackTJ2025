@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Teachers - SkillSwap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/4ZDrJqt.png">
+    <style>
+        body {
+            background: linear-gradient(180deg, #ffffff 0%, #e6f0ff 35%, #cce0ff 70%, #b3d1ff 100%);
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-800">
+        <div class="w-full px-2">
+            <div class="relative flex h-16 items-center justify-between">
+                <!-- Left side: Logo and Brand -->
+                <div class="flex items-center">
+                    <img class="h-8 w-auto" src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                    <h1 class="text-2xl font-bold text-white ml-3">SkillSwap</h1>
+                    
+                    <!-- Navigation Links -->
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <a href="homepage_afs.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
+                            <a href="find_teachers.html" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" aria-current="page">Find Teachers</a>
+                            <a href="ai_assistant.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">AI Assistant</a>
+                            <a href="communication.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Communication</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right side: Notification and Profile -->
+                <div class="flex items-center space-x-4 mr-4">
+                    <!-- Notification Bell -->
+                    <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">View notifications</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                        </svg>
+                    </button>
+
+                    <!-- Profile Dropdown -->
+                    <div class="relative">
+                        <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">Open user menu</span>
+                            <img class="h-8 w-8 rounded-full" src="https://i.imgur.com/VAn4QsU.jpeg" alt="">
+                        </button>
+                        
+                        <!-- Add the dropdown menu -->
+                        <div id="profile-dropdown" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu">
+                            <span class="block px-4 py-2 text-sm text-gray-700 cursor-default" role="menuitem" id="umip_dyanmic">Kedar Kalluri</span>
+                            <a href="profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="umip">Profile</a>
+                            <a href="settings.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="umis">Settings</a>
+                            <a href="homepage_bfs.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="umiso">Sign Out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main class="flex-grow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <!-- Search Section -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Find Your Perfect Teacher Match</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Your Current Skills</label>
+                    <div id="current-skills" class="mt-1 block w-full p-3 rounded-md border border-gray-300 bg-gray-50 text-gray-600">
+                        Loading skills...
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Your Current Interests</label>
+                    <div id="current-interests" class="mt-1 block w-full p-3 rounded-md border border-gray-300 bg-gray-50 text-gray-600">
+                        Loading interests...
+                    </div>
+                </div>
+            </div>
+            <button class="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                Find Matches
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 mb-8">
+    <!-- Results Section -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+        </div>
+    </div>
+</div>
+    </main>
+    <script>
+        function viewProfile(username) {
+    // Store the username to view in localStorage
+    localStorage.setItem('viewProfile', username);
+    // Redirect to the profile page
+    window.location.href = 'profile.html';
+}// Add this function before the DOMContentLoaded event
+// Add this before your DOMContentLoaded event
+function sendConnectionRequest(event, targetUsername) {
+    event.stopPropagation(); // Prevent profile navigation
+    
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const users = JSON.parse(localStorage.getItem('users'));
+    
+    // Initialize connectionRequests array if it doesn't exist
+    if (!users[targetUsername]) {
+        users[targetUsername] = {};
+    }
+    if (!users[targetUsername].connectionRequests) {
+        users[targetUsername].connectionRequests = [];
+    }
+    
+    // Check if request already exists
+    const existingRequest = users[targetUsername].connectionRequests.some(
+        req => req.from === currentUser.username
+    );
+    
+    if (!existingRequest) {
+        // Add the request
+        users[targetUsername].connectionRequests.push({
+            from: currentUser.username,
+            status: 'pending'
+        });
+        
+        // Save to localStorage
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        // Update button appearance
+        const button = event.target;
+        button.textContent = 'Request Sent';
+        button.disabled = true;
+        button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+        button.classList.add('bg-gray-400');
+        
+        console.log('Connection request sent to:', targetUsername);
+    }
+}
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get DOM elements
+            const profileButton = document.getElementById('user-menu-button');
+            const dropdownMenu = document.getElementById('profile-dropdown');
+            const profilePictures = document.querySelectorAll('img[src*="VAn4QsU.jpeg"]');
+            const dyanmic = document.getElementById('umip_dyanmic');
+            const skillsDisplay = document.getElementById('current-skills');
+            const interestsDisplay = document.getElementById('current-interests');
+
+            try {
+                // Get user data from localStorage
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                const users = JSON.parse(localStorage.getItem('users'));
+
+                // Update username in dropdown
+                if (currentUser && currentUser.firstName && currentUser.lastName) {
+                    dyanmic.textContent = `${currentUser.firstName} ${currentUser.lastName}`;
+                    console.log('Updated name to:', currentUser.firstName, currentUser.lastName);
+                }
+
+                // Update profile pictures and user data
+                if (currentUser && users && users[currentUser.username]) {
+                    const userData = users[currentUser.username];
+                    
+                    // Update profile pictures if custom one exists
+                    if (userData.profilePicture) {
+                        profilePictures.forEach(img => {
+                            img.src = userData.profilePicture;
+                        });
+                    }
+
+                    // Update skills display
+                    if (userData.skills && userData.skills.length > 0) {
+                        skillsDisplay.textContent = userData.skills.join(', ');
+                        console.log('Updated skills:', userData.skills);
+                    } else {
+                        skillsDisplay.textContent = 'No skills added yet';
+                    }
+
+                    // Update interests display
+                    if (userData.interests && userData.interests.length > 0) {
+                        interestsDisplay.textContent = userData.interests.join(', ');
+                        console.log('Updated interests:', userData.interests);
+                    } else {
+                        interestsDisplay.textContent = 'No interests added yet';
+                    }
+                } else {
+                    console.log('No user data found in localStorage');
+                    skillsDisplay.textContent = 'No skills available';
+                    interestsDisplay.textContent = 'No interests available';
+                }
+
+                // Handle dropdown menu
+                if (profileButton && dropdownMenu) {
+                    profileButton.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        dropdownMenu.classList.toggle('hidden');
+                    });                
+                    
+                    document.addEventListener('click', (event) => {
+                        if (!profileButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                            dropdownMenu.classList.add('hidden');
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error updating profile:', error);
+            }
+
+            // Add event listener for the Find Matches button
+            const findMatchesButton = document.querySelector('.bg-blue-600');
+            const resultsGrid = document.querySelector('.grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3');
+
+            findMatchesButton.addEventListener('click', () => {
+                findAndDisplayMatches();
+            });
+
+            function findAndDisplayMatches() {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                const users = JSON.parse(localStorage.getItem('users'));
+                const matches = [];
+
+                if (!currentUser || !users || !users[currentUser.username]) {
+                    console.error('User data not found');
+                    return;
+                }
+
+                const currentUserData = users[currentUser.username];
+                const currentUserSkills = currentUserData.skills || [];
+                const currentUserInterests = currentUserData.interests || [];
+                const currentConnections = currentUserData.connections || [];  // Get current connections
+
+                // Find matches
+                for (const [username, userData] of Object.entries(users)) {
+        // Skip if it's the current user or if they're already connected
+        if (username !== currentUser.username && !currentConnections.includes(username)) {
+            const userSkills = userData.skills || [];
+            const userInterests = userData.interests || [];
+
+            // Check for skill-interest matches in both directions
+            const skillsMatchingTheirInterests = currentUserSkills.filter(skill => 
+                userInterests.includes(skill)
+            );
+            const theirSkillsMatchingMyInterests = currentUserInterests.filter(interest => 
+                userSkills.includes(interest)
+            );
+
+                        if (skillsMatchingTheirInterests.length > 0 || theirSkillsMatchingMyInterests.length > 0) {
+                            matches.push({
+                                username,
+                                firstName: userData.firstName,
+                                lastName: userData.lastName,
+                                profilePicture: userData.profilePicture || 'https://i.imgur.com/VAn4QsU.jpeg',
+                                canTeach: skillsMatchingTheirInterests,
+                                canLearn: theirSkillsMatchingMyInterests
+                            });
+                        }
+                    }
+                }
+
+                // Display matches
+                if (matches.length > 0) {
+    resultsGrid.innerHTML = matches.map(match => `
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <img src="${match.profilePicture || 'https://i.imgur.com/VAn4QsU.jpeg'}" 
+                         alt="${match.firstName}" 
+                         class="w-40 h-40 rounded-full cursor-pointer"
+                         onclick="viewProfile('${match.username}')">
+                    <div class="ml-4">
+                        <h3 class="text-lg font-medium text-gray-900">${match.firstName} ${match.lastName}</h3>
+                        <p class="text-sm text-gray-500">Can teach: ${match.canTeach}</p>
+                        <p class="text-sm text-gray-500">Wants to learn: ${match.canLearn}</p>
+                    </div>
+                </div>
+                <button onclick="sendConnectionRequest(event, '${match.username}')"
+                        class="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                    Connect
+                </button>
+            </div>
+        </div>
+    `).join('');
+} else {
+                    resultsGrid.innerHTML = `
+                        <div class="col-span-full text-center py-8">
+                            <p class="text-gray-500">No new matches found. Try updating your skills and interests!</p>
+                        </div>
+                    `;
+                }
+            }
+        });
+    </script>
+    <footer class="bg-gray-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <img class="h-8 w-auto" src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap">
+                    <span class="text-white ml-3">© 2025 SkillSwap</span>
+                </div>
+                <a href="about.html" class="text-gray-300 hover:text-white transition-colors">About</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

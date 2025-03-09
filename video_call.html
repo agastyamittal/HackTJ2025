@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap Video Call</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- ZEGOCLOUD SDK -->
+    <script src="https://zego-express-web-cdn.zego.im/express-video-1.1.0.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://i.imgur.com/4ZDrJqt.png" alt="SkillSwap" class="h-8 w-auto">
+                <h1 class="text-white text-xl font-bold ml-2">SkillSwap Video Call</h1>
+            </div>
+            <button id="leaveButton" class="bg-red-500 text-white px-4 py-2 rounded hidden hover:bg-red-600">
+                Leave Call
+            </button>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4">
+        <!-- Join Call Section -->
+        <div id="joinSection" class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4">Join Video Call</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Room ID</label>
+                    <input type="text" id="roomId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <button id="joinButton" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Join Call
+                </button>
+            </div>
+        </div>
+
+        <!-- Video Call Section -->
+        <div id="videoSection" class="hidden">
+            <div class="grid grid-cols-2 gap-4">
+                <div id="localStream" class="bg-black rounded-lg overflow-hidden aspect-video"></div>
+                <div id="remoteStream" class="bg-black rounded-lg overflow-hidden aspect-video"></div>
+            </div>
+            <div class="flex justify-center mt-4 space-x-4">
+                <button id="audioButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Mute Audio
+                </button>
+                <button id="videoButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Disable Video
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        // Replace with your ZEGOCLOUD credentials
+        const appID = 181742381;
+        const server = 'wss://webliveroom181742381-api-bak.coolzcloud.com/ws';
+        // Generate a test token - replace this with your server-side token generation
+        const token = ZegoExpressEngine.generateToken(appID, '67ad81f2d58e8c1a5e9269a14e2727b0', null, Date.now() + 3600000);
+
+        let zg;
+        let localStream;
+        let remoteStream;
+
+        // Initialize ZEGOCLOUD
+        async function initializeZego() {
+            try {
+                zg = new ZegoExpressEngine(appID, server);
+                
+                // Register callback for remote stream updates
+                zg.on('playerStateUpdate', async (room, state, streamID, error) => {
+                    if (state === 'PLAYING') {
+                        try {
+                            const remoteView = document.getElementById('remoteStream');
+                            remoteStream = await zg.startPlayingStream(streamID);
+                            remoteView.srcObject = remoteStream;
+                        } catch (err) {
+                            console.error('Failed to play remote stream:', err);
+                            alert('Failed to connect to remote stream');
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Failed to initialize Zego:', error);
+                alert('Failed to initialize video call system');
+            }
+        }
+
+        async function checkPermissions() {
+            try {
+                await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+                return true;
+            } catch (err) {
+                console.error('Permission denied:', err);
+                alert('Please allow camera and microphone access to use video calls');
+                return false;
+            }
+        }
+
+        // Join room and start local preview
+        async function joinRoom(roomId) {
+            try {
+                const hasPermissions = await checkPermissions();
+                if (!hasPermissions) return;
+
+                // Generate a random user ID
+                const userId = Math.floor(Math.random() * 1000000).toString();
+                
+                // Join room
+                await zg.loginRoom(roomId, token, {
+                    userId: userId,
+                    userName: 'User_' + userId
+                });
+
+                // Start local preview
+                const localView = document.getElementById('localStream');
+                localStream = await zg.createStream();
+                localView.srcObject = localStream;
+                
+                // Publish stream
+                await zg.startPublishingStream(userId, localStream);
+
+                // Show video section and hide join section
+                document.getElementById('joinSection').classList.add('hidden');
+                document.getElementById('videoSection').classList.remove('hidden');
+                document.getElementById('leaveButton').classList.remove('hidden');
+            } catch (error) {
+                console.error('Failed to join room:', error);
+                alert('Failed to join room. Please try again.');
+            }
+        }
+
+        // Leave room and clean up
+        async function leaveRoom() {
+            try {
+                if (localStream) {
+                    zg.destroyStream(localStream);
+                    localStream = null;
+                }
+                if (remoteStream) {
+                    zg.destroyStream(remoteStream);
+                    remoteStream = null;
+                }
+                await zg.logoutRoom();
+                
+                // Reset UI
+                document.getElementById('joinSection').classList.remove('hidden');
+                document.getElementById('videoSection').classList.add('hidden');
+                document.getElementById('leaveButton').classList.add('hidden');
+            } catch (error) {
+                console.error('Failed to leave room:', error);
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initializeZego();
+
+            // Add event listeners for all buttons
+            document.getElementById('joinButton').addEventListener('click', () => {
+                const roomId = document.getElementById('roomId').value.trim();
+                if (roomId) {
+                    joinRoom(roomId);
+                } else {
+                    alert('Please enter a room ID');
+                }
+            });
+
+            document.getElementById('leaveButton').addEventListener('click', leaveRoom);
+            
+            // Add audio/video toggle listeners
+            document.getElementById('audioButton').addEventListener('click', toggleAudio);
+            document.getElementById('videoButton').addEventListener('click', toggleVideo);
+        });
+
+        // Clean up when page unloads
+        window.addEventListener('beforeunload', () => {
+            leaveRoom();
+        });
+
+        function toggleAudio() {
+            if (localStream && localStream.getAudioTracks().length > 0) {
+                const audioTrack = localStream.getAudioTracks()[0];
+                if (audioTrack) {
+                    audioTrack.enabled = !audioTrack.enabled;
+                    document.getElementById('audioButton').classList.toggle('bg-red-500');
+                    document.getElementById('audioButton').textContent = 
+                        audioTrack.enabled ? 'Mute Audio' : 'Unmute Audio';
+                }
+            }
+        }
+
+        function toggleVideo() {
+            if (localStream && localStream.getVideoTracks().length > 0) {
+                const videoTrack = localStream.getVideoTracks()[0];
+                if (videoTrack) {
+                    videoTrack.enabled = !videoTrack.enabled;
+                    document.getElementById('videoButton').classList.toggle('bg-red-500');
+                    document.getElementById('videoButton').textContent = 
+                        videoTrack.enabled ? 'Disable Video' : 'Enable Video';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
